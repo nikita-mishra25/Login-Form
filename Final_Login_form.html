@@ -1,0 +1,233 @@
+<html>
+<head>
+    <title>Final-Login_Form</title>
+    <style>
+        body
+        {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('C:/Users/DELL/Desktop/Test_Submission/login_form/Image/nature.JPG');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: yellow;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        h1, h2
+         {
+            text-align: center;
+            margin: 10px 0;
+        }
+        label
+         {
+            display: inline-block;
+            width: 150px;
+            vertical-align: top;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], 
+        input[type="date"], input[type="time"], input[type="number"], 
+        select, textarea, input[type="file"]
+        {
+            width: 60%;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        textarea
+         {
+            height: 60px;
+            resize: vertical;
+        }
+        span
+         {
+            color: red;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .rows
+         {
+            margin-bottom: 15px;
+        }
+
+        .form-actions
+         {
+            text-align: center;
+        }
+
+        #sun_image 
+        {
+            display: block;
+            margin: 10px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 8px #fff;
+        }
+    </style>
+    <script>
+        window.onload = function ()
+        {
+            startClock();
+
+            var fields = ["uname", "fname", "email", "pass", "dob", "tob", "num", "image", "add", "city"];
+            fields.forEach(id =>
+             {
+                document.getElementById(id).addEventListener("input", function ()
+                 {
+                    if (this.value !== "")
+                     {
+                        document.getElementById(id + "_error_msg").innerText = "";
+                    }
+                });
+            });
+
+            document.getElementsByName("gender").forEach(radio => {
+                radio.addEventListener("change", function () {
+                    document.getElementById("gender_error_msg").innerText = "";
+                });
+            });
+
+            document.getElementsByName("hobby").forEach(cb => {
+                cb.addEventListener("change", function () {
+                    var count = Array.from(document.getElementsByName("hobby")).filter(h => h.checked).length;
+                    if (count >= 2) {
+                        document.getElementById("hobby_error_msg").innerText = "";
+                    }
+                });
+            });
+        };
+
+        function startClock() {
+            updateClockAndGreeting();
+            setInterval(updateClockAndGreeting, 1000);
+        }
+
+        function updateClockAndGreeting() {
+            var d = new Date();
+            document.getElementById("show_timer").innerText = d.toLocaleTimeString();
+
+            var hour = d.getHours();
+            var msg = document.getElementById("msg");
+            var img = document.getElementById("sun_image");
+
+            if (hour >= 4 && hour < 12) {
+                msg.innerText = "Good Morning";
+                msg.style.color = "orange";
+                img.src = "C:/Users/DELL/Desktop/Test_Submission/login_form/Image/morning_sun.JPG";
+            } 
+            else if (hour >= 12 && hour < 16)
+             {
+                msg.innerText = "Good Afternoon";
+                msg.style.color = "red";
+                img.src = "C:/Users/DELL/Desktop/Test_Submission/login_form/Image/afternoon_sun.JPEG";
+            }
+             else if (hour >= 16 && hour < 19) {
+                msg.innerText = "Good Evening";
+                msg.style.color = "green";
+                img.src = "C:/Users/DELL/Desktop/Test_Submission/login_form/Image/evening_sun.JPEG";
+            }
+            else
+            {
+                msg.innerText = "Good Night";
+                msg.style.color = "blue";
+                img.src = "C:/Users/DELL/Desktop/Test_Submission/login_form/Image/night sun.JPEG ";
+            }
+        }
+
+        function validation() {
+            var result = true;
+            var gender_result = false;
+            var hobby_result = false;
+
+            var fields = ["uname", "fname", "email", "pass", "dob", "tob", "num", "image", "add", "city"];
+            fields.forEach(id => {
+                var value = document.getElementById(id).value;
+                if (value === "") {
+                    document.getElementById(id + "_error_msg").innerText = "Plz Fill The " + id.charAt(0).toUpperCase() + id.slice(1);
+                    result = false;
+                } else {
+                    document.getElementById(id + "_error_msg").innerText = "";
+                }
+            });
+
+            var genders = document.getElementsByName("gender");
+            gender_result = Array.from(genders).some(g => g.checked);
+            if (!gender_result) {
+                document.getElementById("gender_error_msg").innerText = "Plz Select Gender";
+            }
+
+            var hobbies = document.getElementsByName("hobby");
+            var hobbyCount = Array.from(hobbies).filter(h => h.checked).length;
+            if (hobbyCount === 0) {
+                document.getElementById("hobby_error_msg").innerText = "Plz Select Hobby";
+                hobby_result = false;
+            } else if (hobbyCount < 2) {
+                document.getElementById("hobby_error_msg").innerText = "Plz Select Min 2 Hobby";
+                hobby_result = false;
+            } else {
+                hobby_result = true;
+            }
+
+            return result && gender_result && hobby_result;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="show_timer"></h1>
+        <h2 id="msg"></h2>
+        <img src="D:/Front_End_Classes_Notes/JS__Test_Practice/Task_JS_CALCU._CAPTCHA_LOGIN_FORM/Imagesun.WEBP" id="sun_image" width="250" height="150">
+
+        <form action="D:\Front_End_Classes_Notes\HTML+CSS_All_PROJECTS\OnePage Website\Index.html.html" onsubmit="return validation()">
+            <div class="rows"><label>Name*:</label><input type="text" placeholder="Enter Your Name" id="uname"><span id="uname_error_msg"></span></div>
+            <div class="rows"><label>Father Name*:</label><input type="text" placeholder="Enter Father Name"  id="fname"><span id="fname_error_msg"></span></div>
+            <div class="rows"><label>Email*:</label><input type="email"  placeholder="Enter Email ID" id="email"><span id="email_error_msg"></span></div>
+            <div class="rows"><label>Password*:</label><input type="password" placeholder="Enter your Password"  id="pass"><span id="pass_error_msg"></span></div>
+            <div class="rows"><label>DOB*:</label><input type="date" id="dob"><span id="dob_error_msg"></span></div>
+            <div class="rows"><label>TOB*:</label><input type="time" id="tob"><span id="tob_error_msg"></span></div>
+            <div class="rows"><label>Age*:</label><input type="number" placeholder="Enter Your Age"  id="num"><span id="num_error_msg"></span></div>
+            <div class="rows"><label>Image*:</label><input type="file" id="image"><span id="image_error_msg"></span></div>
+            <div class="rows"><label>Address*:</label><textarea id="add"  placeholder="Enter Your Address" ></textarea><span id="add_error_msg"></span></div>
+            <div class="rows">
+                <label>City*:</label>
+                <select id="city">
+                    <option value="">Select City</option>
+                    <option value="indore">Indore</option>
+                    <option value="pune">Pune</option>
+                    <option value="bhopal">Bhopal</option>
+                    <option value="rewa">Rewa</option>
+                    <option value="jabalpur">Jabalpur</option>
+                </select>
+                <span id="city_error_msg"></span>
+            </div>
+            <div class="rows">
+                <label>Gender*:</label>
+                <input type="radio" name="gender">Male
+                <input type="radio" name="gender">Female
+                <span id="gender_error_msg"></span>
+            </div>
+            <div class="rows">
+                <label>Hobby*:</label>
+                <input type="checkbox" name="hobby">Cricket
+                <input type="checkbox" name="hobby">Football
+                <input type="checkbox" name="hobby">Reading
+                <input type="checkbox" name="hobby">Singing
+                <span id="hobby_error_msg"></span>
+            </div>
+            <div class="form-actions">
+                <input type="submit" value="Submit" style="padding: 10px 20px; border-radius: 8px; border: none; background-color: lightgreen; font-weight: bold;">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
